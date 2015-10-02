@@ -39,7 +39,12 @@ class Settings {
     public $rest_timeout = 15;
     public $proxy = false;
 
-   /**
+    // Mocking responses for unit tests
+    public $useMockResponse = false;
+    public $saveMockResponse = false;
+    public $mockResponsesDir = '/tmp/dwolla/';
+
+    /**
      * PHP "magic" getter.
      *
      * @param $name
