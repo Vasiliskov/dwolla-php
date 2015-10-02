@@ -286,6 +286,7 @@ class RestClient {
     }
 
     private function getMock ($requestUrl, $requestBody) {
+        echo "Reading mock\n";
         if (!is_string($requestBody)) {
             $requestBody = print_r($requestBody, true);
         }
@@ -314,6 +315,7 @@ class RestClient {
     }
 
     private function saveMock ($requestUrl, $requestBody, $httpCode, $headers_source, $response) {
+        echo "Saving mock\n";
         if (!file_exists(self::$settings->mockResponsesDir)) {
             mkdir(self::$settings->mockResponsesDir, 0777, true);
         }
