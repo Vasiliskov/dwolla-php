@@ -214,7 +214,7 @@ class RestClient {
      */
     private function _send ($method, $endpoint, $query, $customPostfix = false, $dwollaParse = true) {
         if (!empty(self::$settings->useMockResponse) && empty(self::$settings->saveMockResponse)) {
-            $this->client->getEmitter()->attach($this->getMock($endpoint, $query));
+            $this->client->getEmitter()->attach($this->getMock($this->_host() . ($customPostfix ? $customPostfix : self::$settings->default_postfix) . $endpoint, $query));
         }
         if ($method == 'GET' || $method == 'DELETE') {
             $configArray = ['query' => $query];
@@ -229,7 +229,9 @@ class RestClient {
                 $this->_console("$method Request to $endpoint\n");
                 $this->_console("    " . json_encode($query));
             }
-            $this->saveMock($endpoint, $query, $response->getStatusCode(), $response->getHeaders(), (string)$response->getBody());
+            if (!empty(self::$settings->saveMockResponse)) {
+                $this->saveMock($this->_host() . ($customPostfix ? $customPostfix : self::$settings->default_postfix) . $endpoint, $query, $response->getStatusCode(), $response->getHeaders(), (string)$response->getBody());
+            }
         } catch (RequestException $exception) {
             $response    = false;
             $responseRaw = '';
@@ -242,7 +244,9 @@ class RestClient {
                     $responseRaw = $exception->getResponse();
                 }
             }
-            $this->saveMock($endpoint, $query, $exception->getCode(), array(), (string)$responseRaw);
+            if (!empty(self::$settings->saveMockResponse)) {
+                $this->saveMock($endpoint, $query, $exception->getCode(), array(), (string)$responseRaw);
+            }
         }
         if ($response) {
             if ($response->getBody()) {
