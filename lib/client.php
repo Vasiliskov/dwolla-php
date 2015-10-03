@@ -213,7 +213,7 @@ class RestClient {
      * @return string[] Response body.
      */
     private function _send ($method, $endpoint, $query, $customPostfix = false, $dwollaParse = true) {
-        if (!empty(self::$settings->useMockResponse)) {
+        if (!empty(self::$settings->useMockResponse) && empty(self::$settings->saveMockResponse)) {
             $this->client->getEmitter()->attach($this->getMock($endpoint, $query));
         }
         if ($method == 'GET' || $method == 'DELETE') {
@@ -335,7 +335,7 @@ class RestClient {
         file_put_contents($filename, $data);
         if (self::$settings->debug) {
             $requestData = "<?\n\$reqdata = array('url' => '$requestUrl', \n'httpCode' => $httpCode, \n'body' => '$requestBody');";
-            $filename    = self::$settings->mockResponsesDir . md5($requestUrl) . md5($requestBody) . '.inc';
+            $filename    = self::$settings->mockResponsesDir . md5($requestUrl) . md5($requestBody) . '_req.inc';
             file_put_contents($filename, $requestData);
         }
     }
