@@ -206,7 +206,7 @@ class RestClient {
      * Wrapper around Guzzle request.
      *
      * @param string   $endpoint      API endpoint string
-     * @param string[] $query         Array of URLEncoded query items in key-value pairs.
+     * @param string[] $query         Query params.
      * @param bool     $customPostfix Use default REST postfix?
      * @param bool     $dwollaParse   Parse out of message envelope?
      *
@@ -289,6 +289,14 @@ class RestClient {
         $this->client = new Client($p);
     }
 
+    /**
+     * Getting Guzzle mock response.
+     *
+     * @param string   $requestUrl      Full API endpoint URL
+     * @param mixed    $requestBody     Request body.
+     *
+     * @return Mock    Guzzle mock response.
+     */
     private function getMock ($requestUrl, $requestBody) {
         if (!is_string($requestBody)) {
             $requestBody = print_r($requestBody, true);
@@ -317,6 +325,15 @@ class RestClient {
         return $mock;
     }
 
+    /**
+     * Saving Guzzle mock response.
+     *
+     * @param string   $requestUrl      Full API endpoint URL
+     * @param mixed    $requestBody     Request body.
+     * @param int      $httpCode        HTTP response code.
+     * @param array    $headers_source  HTTP headers array
+     * @param mixed    $response        Response body
+     */
     private function saveMock ($requestUrl, $requestBody, $httpCode, $headers_source, $response) {
         if (!file_exists(self::$settings->mockResponsesDir)) {
             mkdir(self::$settings->mockResponsesDir, 0777, true);
