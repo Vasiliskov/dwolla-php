@@ -1,5 +1,5 @@
 {
-    "name": "Vasiliskov/dwolla-php",
+    "name": "Dwolla/dwolla-php",
     "description": "An official Guzzle based wrapper for the Dwolla API.",
     "keywords": ["dwolla", "money", "payments", "api", "orange"],
     "homepage": "http://developers.dwolla.com/",
