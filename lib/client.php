@@ -245,7 +245,7 @@ class RestClient {
                 }
             }
             if (!empty(self::$settings->saveMockResponse)) {
-                $this->saveMock($endpoint, $query, $exception->getCode(), array(), (string)$responseRaw);
+                $this->saveMock($this->_host() . ($customPostfix ? $customPostfix : self::$settings->default_postfix) . $endpoint, $query, $exception->getCode(), array(), (string)$responseRaw);
             }
         }
         if ($response) {
